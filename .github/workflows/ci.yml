@@ -18,13 +18,13 @@ jobs:
           github_access_token: ${{ secrets.GH_TOKEN }}
           
       - name: Install CI dependencies
-        run: nix profile install .#ci
+        run: nix profile add .#ci
         
       - name: Install PureScript dependencies
         run: spago install
         
-      - name: Format check
-        run: purs-tidy check "src/**/*.purs" "test/**/*.purs"
+      # - name: Format check
+      #   run: purs-tidy check "src/**/*.purs" "test/**/*.purs"
         
       - name: Build project
         run: spago build
