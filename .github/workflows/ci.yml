@@ -1,13 +1,33 @@
 name: "CI"
+
 on:
   push:
+  pull_request:
+
 jobs:
   tests:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v5
-    - uses: cachix/install-nix-action@v31
-      with:
-        github_access_token: ${{ secrets.GH_TOKEN }}
-    - run: nix build .#ci
-    - run: nix flake check
+      - name: Checkout code
+        uses: actions/checkout@v5
+        
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GH_TOKEN }}
+          
+      - name: Install CI dependencies
+        run: nix profile install .#ci
+        
+      - name: Install PureScript dependencies
+        run: spago install
+        
+      - name: Format check
+        run: purs-tidy check "src/**/*.purs" "test/**/*.purs"
+        
+      - name: Build project
+        run: spago build
+        
+      - name: Run tests
+        run: spago test
