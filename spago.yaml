@@ -6,7 +6,8 @@ package:
     - prelude
   test:
     main: Test.Main
-    dependencies: []
+    dependencies:
+      - test-unit
 workspace:
   packageSet:
     registry: 66.4.0
