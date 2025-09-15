@@ -56,7 +56,15 @@ This project uses Nix for development environment management and Spago for PureS
 │       └── Misc.purs          # Questions 90 to 99
 └── test/
     └── Test/
-        └── Main.purs
+        ├── Main.purs
+        └── Problems/
+            ├── Lists.purs         # Tests for Questions 1 to 28
+            ├── Arithmetic.purs    # Tests for Questions 31 to 41
+            ├── Logic.purs         # Tests for Questions 46 to 50
+            ├── BinaryTrees.purs   # Tests for Questions 54A to 69
+            ├── MultiwayTrees.purs # Tests for Questions 70B to 73
+            ├── Graphs.purs        # Tests for Questions 80 to 89
+            └── Misc.purs          # Tests for Questions 90 to 99
 ```
 
 ## Resources

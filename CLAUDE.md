@@ -49,6 +49,14 @@ See the Project Structure section in README.md for the complete directory layout
   - `MultiwayTrees.purs` - Questions 70B-73 (multiway trees)
   - `Graphs.purs` - Questions 80-89 (graphs)
   - `Misc.purs` - Questions 90-99 (miscellaneous problems)
+- `test/Test/Problems/` - Test files mirroring the src structure:
+  - `Lists.purs` - Tests for Questions 1-28
+  - `Arithmetic.purs` - Tests for Questions 31-41
+  - `Logic.purs` - Tests for Questions 46-50
+  - `BinaryTrees.purs` - Tests for Questions 54A-69
+  - `MultiwayTrees.purs` - Tests for Questions 70B-73
+  - `Graphs.purs` - Tests for Questions 80-89
+  - `Misc.purs` - Tests for Questions 90-99
 
 ### Naming Conventions
 - Function names: Use descriptive camelCase (e.g., `myLast`, `elementAt`)
