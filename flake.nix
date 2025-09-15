@@ -23,23 +23,29 @@
           inherit system;
           overlays = [ purescript-overlay.overlays.default ];
         };
+        devPackages = with pkgs; [
+          purs
+          spago-unstable
+          purs-tidy
+          purs-backend-es
+          purescript-language-server
+          nodejs_22
+          esbuild
+        ];
+        ciPackages = with pkgs; [
+          purs
+          spago-unstable
+          purs-tidy
+          nodejs_22
+        ];
       in
       {
-        packages = {
-          default = pkgs.hello; # your package here
-        };
-
         devShells.default = pkgs.mkShell {
-          inputsFrom = builtins.attrValues self.packages;
-          buildInputs = with pkgs; [
-            purs
-            spago-unstable
-            purs-tidy
-            purs-backend-es
-            purescript-language-server
-            nodejs_22
-            esbuild
-          ];
+          buildInputs = devPackages;
+        };
+        packages.ci = pkgs.buildEnv {
+          name = "ci";
+          paths = ciPackages;
         };
       }
     );
