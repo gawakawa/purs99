@@ -6,6 +6,7 @@
       url = "github:thomashoneyman/purescript-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 
   outputs =
@@ -15,6 +16,8 @@
         "x86_64-linux"
         "aarch64-darwin"
       ];
+
+      imports = [ inputs.treefmt-nix.flakeModule ];
 
       perSystem =
         {
@@ -49,6 +52,10 @@
           packages.ci = pkgs.buildEnv {
             name = "ci";
             paths = ciPackages;
+          };
+          treefmt = {
+            programs.nixfmt.enable = true;
+            programs.purs-tidy.enable = true;
           };
         };
     };
