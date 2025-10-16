@@ -4,7 +4,7 @@ PureScript solutions to the [H-99 problems](https://wiki.haskell.org/H-99:_Ninet
 
 ## Setup
 
-This project uses Nix for development environment management and Spago for PureScript package management.
+This project uses Nix for development environment management and purs-nix for PureScript package management.
 
 ### Prerequisites
 
@@ -20,24 +20,24 @@ This project uses Nix for development environment management and Spago for PureS
    ```
    Or if using direnv, just `cd` into the project directory and run `direnv allow`
 
-3. Install dependencies:
+3. Build the project:
    ```bash
-   spago install
+   nix build
    ```
 
-4. Build the project:
+4. Run the main module:
    ```bash
-   spago build
+   nix run
    ```
 
-5. Run the main module:
+5. Run tests:
    ```bash
-   spago run
+   nix flake check
    ```
 
-6. Run tests:
+6. Format code:
    ```bash
-   spago test
+   nix fmt
    ```
 
 ## Project Structure

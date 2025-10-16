@@ -8,32 +8,28 @@ This is a PureScript implementation of the Haskell-99 problems, organized as a p
 
 ## Development Environment
 
-- **Build Tool**: Spago (configured via `spago.yaml`)
+- **Build Tool**: purs-nix (configured via `flake.nix`)
 - **Development Shell**: Nix flake with PureScript toolchain
-- **Package Registry**: PureScript Registry 66.4.0
 - **Formatter**: treefmt (purs-tidy + nixfmt via `nix fmt`)
 - **Language Server**: purescript-language-server
 
 ## Essential Commands
 
 ```bash
-# Install dependencies
-spago install
+# Enter development shell
+nix develop
 
 # Build the project
-spago build
+nix build
 
 # Run the main module
-spago run
+nix run
 
 # Run tests
-spago test
+nix flake check
 
 # Format code (PureScript and Nix files)
 nix fmt
-
-# Type check without building
-spago build --no-sources
 ```
 
 ## Code Organization
@@ -74,16 +70,21 @@ See the Project Structure section in README.md for the complete directory layout
 - Write pure functions when possible
 
 ### Dependencies
-Current dependencies in `spago.yaml`:
+Current dependencies in `flake.nix`:
 - `console` - for logging output
 - `effect` - for side effects
 - `prelude` - standard library
+- `arrays` - array operations
+- `maybe` - optional values
+
+Test dependencies:
+- `test-unit` - unit testing framework
 
 When adding new dependencies:
 1. Check if the functionality exists in current deps
 2. Add minimal, well-maintained packages
-3. Update `spago.yaml` dependencies list
-4. Run `spago install` to update lock file
+3. Update `dependencies` list in `flake.nix`
+4. Re-enter the development shell with `nix develop`
 
 ### Testing Strategy
 - Use simple assertions in test files
@@ -105,7 +106,7 @@ When adding new dependencies:
 
 ## Quality Checks
 Before committing changes:
-1. `spago build` - ensure compilation
-2. `spago test` - run test suite
+1. `nix build` - ensure compilation
+2. `nix flake check` - run test suite and other checks
 3. `nix fmt` - format all code files (PureScript and Nix)
 4. Manual review of type signatures and documentation
