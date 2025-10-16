@@ -58,6 +58,10 @@
             program = "${config.packages.default}/bin/purs99";
           };
 
+          checks = {
+            tests = ps.test.check { };
+          };
+
           devShells.default = pkgs.mkShell {
             buildInputs = [
               pkgs.nodejs

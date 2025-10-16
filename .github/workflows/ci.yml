@@ -22,8 +22,5 @@ jobs:
       - name: Build
         run: nix build
 
-      - name: Test
-        run: nix develop --command purs-nix test
-
       - name: Flake check
         run: nix flake check
