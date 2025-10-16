@@ -11,7 +11,7 @@ This is a PureScript implementation of the Haskell-99 problems, organized as a p
 - **Build Tool**: Spago (configured via `spago.yaml`)
 - **Development Shell**: Nix flake with PureScript toolchain
 - **Package Registry**: PureScript Registry 66.4.0
-- **Formatter**: purs-tidy
+- **Formatter**: treefmt (purs-tidy + nixfmt via `nix fmt`)
 - **Language Server**: purescript-language-server
 
 ## Essential Commands
@@ -29,11 +29,8 @@ spago run
 # Run tests
 spago test
 
-# Format code
-purs-tidy format-in-place "src/**/*.purs" "test/**/*.purs"
-
-# Format Nix files
-nixfmt *.nix
+# Format code (PureScript and Nix files)
+nix fmt
 
 # Type check without building
 spago build --no-sources
@@ -69,8 +66,8 @@ See the Project Structure section in README.md for the complete directory layout
 ## Implementation Guidelines
 
 ### Code Style
-- Use `purs-tidy` for consistent formatting
-- Use `nixfmt` for consistent Nix file formatting (ALWAYS format .nix files after editing)
+- Use `nix fmt` for consistent formatting (formats both PureScript and Nix files)
+- ALWAYS run `nix fmt` after editing any code files to ensure consistency with CI
 - Prefer pattern matching over conditional expressions
 - Use `do` notation for Effect computations
 - Leverage PureScript's type system (phantom types, newtypes, etc.)
@@ -110,6 +107,5 @@ When adding new dependencies:
 Before committing changes:
 1. `spago build` - ensure compilation
 2. `spago test` - run test suite
-3. `purs-tidy format-in-place` - format PureScript code
-4. `nixfmt *.nix` - format Nix files (if modified)
-5. Manual review of type signatures and documentation
+3. `nix fmt` - format all code files (PureScript and Nix)
+4. Manual review of type signatures and documentation

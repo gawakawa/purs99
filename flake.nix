@@ -59,13 +59,12 @@
           };
 
           devShells.default = pkgs.mkShell {
-            buildInputs = with pkgs; [
-              nodejs
+            buildInputs = [
+              pkgs.nodejs
               (ps.command { })
               purs-nix.esbuild
               purs-nix.purescript
               ps-tools.for-0_15.purescript-language-server
-              ps-tools.for-0_15.purs-tidy
             ];
           };
 
