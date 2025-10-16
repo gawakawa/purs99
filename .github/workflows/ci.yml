@@ -15,7 +15,9 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Format check
-        run: nix fmt -- --fail-on-change
+        run: |
+          nix fmt -- --no-cache
+          git diff --exit-code
 
       - name: Build
         run: nix build

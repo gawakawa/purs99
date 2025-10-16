@@ -69,8 +69,10 @@
           };
 
           treefmt = {
-            programs.nixfmt.enable = true;
-            programs.purs-tidy.enable = true;
+            programs = {
+              nixfmt.enable = true;
+              purs-tidy.enable = true;
+            };
           };
         };
     };
