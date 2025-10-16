@@ -1,11 +1,8 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    purs-nix.url = "github:purs-nix/purs-nix";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    purescript-overlay = {
-      url = "github:thomashoneyman/purescript-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 
@@ -27,32 +24,51 @@
           ...
         }:
         let
-          pkgs = import inputs.nixpkgs {
-            inherit system;
-            overlays = [ inputs.purescript-overlay.overlays.default ];
+          pkgs = import inputs.nixpkgs { inherit system; };
+
+          purs-nix = inputs.purs-nix { inherit system; };
+
+          ps-tools = inputs.purs-nix.inputs.ps-tools.legacyPackages.${system};
+
+          ps = purs-nix.purs {
+            dependencies = [
+              "arrays"
+              "console"
+              "effect"
+              "maybe"
+              "prelude"
+            ];
+
+            test-dependencies = [
+              "test-unit"
+            ];
+
+            dir = ./.;
           };
-          ciPackages = with pkgs; [
-            purs
-            spago-unstable
-            purs-tidy
-            nodejs_22
-          ];
-          devPackages =
-            ciPackages
-            ++ (with pkgs; [
-              purs-backend-es
-              purescript-language-server
-              esbuild
-            ]);
         in
         {
+          packages = with ps; {
+            default = app { name = "purs99"; };
+            bundle = bundle { };
+            output = output { };
+          };
+
+          apps.default = {
+            type = "app";
+            program = "${config.packages.default}/bin/purs99";
+          };
+
           devShells.default = pkgs.mkShell {
-            buildInputs = devPackages;
+            buildInputs = with pkgs; [
+              nodejs
+              (ps.command { })
+              purs-nix.esbuild
+              purs-nix.purescript
+              ps-tools.for-0_15.purescript-language-server
+              ps-tools.for-0_15.purs-tidy
+            ];
           };
-          packages.ci = pkgs.buildEnv {
-            name = "ci";
-            paths = ciPackages;
-          };
+
           treefmt = {
             programs.nixfmt.enable = true;
             programs.purs-tidy.enable = true;
