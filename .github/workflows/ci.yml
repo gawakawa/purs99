@@ -22,10 +22,10 @@ jobs:
         
       - name: Install PureScript dependencies
         run: spago install
-        
-      # - name: Format check
-      #   run: purs-tidy check "src/**/*.purs" "test/**/*.purs"
-        
+
+      - name: Format check
+        run: nix fmt -- --fail-on-change
+
       - name: Build project
         run: spago build
         
