@@ -22,7 +22,14 @@ This project uses Nix for development environment management and purs-nix for Pu
 
 3. Build the project:
    ```bash
-   nix build
+   # Build default package (executable) to ./output
+   nix build -o output
+
+   # Build PureScript compiler output (modules) to custom path
+   nix build '.#output' -o output-modules
+
+   # Build JavaScript bundle (single file) to custom path
+   nix build '.#bundle' -o bundle.js
    ```
 
 4. Run the main module:

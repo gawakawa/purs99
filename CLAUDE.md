@@ -20,7 +20,14 @@ This is a PureScript implementation of the Haskell-99 problems, organized as a p
 nix develop
 
 # Build the project
-nix build
+# Build default package (executable) to ./output
+nix build -o output
+
+# Build PureScript compiler output (modules) to custom path
+nix build '.#output' -o output-modules
+
+# Build JavaScript bundle (single file) to custom path
+nix build '.#bundle' -o bundle.js
 
 # Run the main module
 nix run
@@ -106,7 +113,7 @@ When adding new dependencies:
 
 ## Quality Checks
 Before committing changes:
-1. `nix build` - ensure compilation
+1. `nix build -o output` - ensure compilation
 2. `nix flake check` - run test suite and other checks
 3. `nix fmt` - format all code files (PureScript and Nix)
 4. Manual review of type signatures and documentation
