@@ -74,8 +74,14 @@
 
           treefmt = {
             programs = {
-              nixfmt.enable = true;
-              purs-tidy.enable = true;
+              nixfmt = {
+                enable = true;
+                includes = [ "*.nix" ];
+              };
+              purs-tidy = {
+                enable = true;
+                includes = [ "*.purs" ];
+              };
             };
           };
         };
