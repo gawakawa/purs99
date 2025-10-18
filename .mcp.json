@@ -3,6 +3,10 @@
     "nixos": {
       "command": "nix",
       "args": ["run", "github:utensils/mcp-nixos", "--"]
+    },
+    "pursuit": {
+      "command": "nix",
+      "args": ["run", "github:gawakawa/pursuit-mcp", "--"]
     }
   }
 }
