@@ -4,6 +4,10 @@
     purs-nix.url = "github:purs-nix/purs-nix";
     flake-parts.url = "github:hercules-ci/flake-parts";
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    mcp-servers-nix = {
+      url = "github:natsukium/mcp-servers-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -45,6 +49,22 @@
 
             dir = ./.;
           };
+
+          mcpConfig = inputs.mcp-servers-nix.lib.mkConfig pkgs {
+            programs = {
+              nixos.enable = true;
+            };
+            settings.servers = {
+              pursuit = {
+                command = "nix";
+                args = [
+                  "run"
+                  "github:gawakawa/pursuit-mcp"
+                  "--"
+                ];
+              };
+            };
+          };
         in
         {
           packages = with ps; {
@@ -70,6 +90,12 @@
               purs-nix.purescript
               ps-tools.for-0_15.purescript-language-server
             ];
+            shellHook = ''
+              if [ -L ".mcp.json" ]; then
+                unlink .mcp.json
+              fi
+              ln -sf ${mcpConfig} .mcp.json
+            '';
           };
 
           treefmt = {
