@@ -90,10 +90,8 @@
               ps-tools.for-0_15.purescript-language-server
             ];
             shellHook = ''
-              if [ -L ".mcp.json" ]; then
-                unlink .mcp.json
-              fi
-              ln -sf ${mcpConfig} .mcp.json
+              cat ${mcpConfig} > .mcp.json
+              echo "Generated .mcp.json"
             '';
           };
 
